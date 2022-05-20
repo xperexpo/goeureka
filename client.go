@@ -180,6 +180,7 @@ func startHeartbeat(appName string, localip string) {
 //* 404 if instanceID doesn’t exist
 func heartbeat(appName string, localip string) {
 	appName = strings.ToUpper(appName)
+	deregister(appName)
 	instanceId, lastDirtyTimestamp,err := GetInfoWithappName(appName)
 	if instanceId ==""{
 		log.Printf("instanceId is None , Please check at (%v) \n", discoveryServerUrl)
