@@ -180,7 +180,6 @@ func startHeartbeat(appName string, localip string) {
 //* 404 if instanceID doesn’t exist
 func heartbeat(appName string, localip string) {
 	appName = strings.ToUpper(appName)
-	deregister(appName)
 	instanceId, lastDirtyTimestamp,err := GetInfoWithappName(appName)
 	if instanceId ==""{
 		log.Printf("instanceId is None , Please check at (%v) \n", discoveryServerUrl)
@@ -194,6 +193,7 @@ func heartbeat(appName string, localip string) {
 			// "58.49.122.210:GOLANG-SERVER:8889"
 			instanceId = localip + ":" +  appName + ":" +  Vport
 		}
+		deregister(appName)
 		heartbeatAction := RequestAction{
 			//http://127.0.0.1:8761/eureka/apps/TORNADO-SERVER/127.0.0.1:tornado-server:3333/status?value=UP&lastDirtyTimestamp=1607321668458
 			Url:         discoveryServerUrl + eurekaPath + appName + "/" + instanceId + "/status?value=UP&lastDirtyTimestamp=" + lastDirtyTimestamp,
