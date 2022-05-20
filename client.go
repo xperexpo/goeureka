@@ -228,6 +228,21 @@ func Deregister(appName string) {
 	log.Println("Deregistered App: " + appName+deregisterAction.Url)
 }
 
+func FirstDeRegister(appName string,url string) {
+	appName = strings.ToUpper(appName)
+	log.Println("Trying to deregister application " + appName)
+	instanceId,_, _ := GetInfoWithappName(appName)
+	// cancel registerion
+	deregisterAction := RequestAction{
+		//http://127.0.0.1:8761/eureka/apps/TORNADO-SERVER/127.0.0.1:tornado-server:3333/status?value=UP&lastDirtyTimestamp=1607321668458
+		Url:         url + eurekaPath + appName + "/" + instanceId ,
+		ContentType: "application/json;charset=UTF-8",
+		Method:      "DELETE",
+	}
+	isDoHttpRequest(deregisterAction)
+	log.Println("Deregistered App: " + appName+deregisterAction.Url)
+}
+
 // handleSigterm when has signal os Interrupt eureka would exit
 func handleSigterm(appName string) {
 	c := make(chan os.Signal, 1)
