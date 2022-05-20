@@ -193,7 +193,6 @@ func heartbeat(appName string, localip string) {
 			// "58.49.122.210:GOLANG-SERVER:8889"
 			instanceId = localip + ":" +  appName + ":" +  Vport
 		}
-		deregister(appName)
 		heartbeatAction := RequestAction{
 			//http://127.0.0.1:8761/eureka/apps/TORNADO-SERVER/127.0.0.1:tornado-server:3333/status?value=UP&lastDirtyTimestamp=1607321668458
 			Url:         discoveryServerUrl + eurekaPath + appName + "/" + instanceId + "/status?value=UP&lastDirtyTimestamp=" + lastDirtyTimestamp,
@@ -214,7 +213,7 @@ func Sendheartbeat(appName string, localip string)  {
 // deregister De-register application instance
 // DELETE /eureka/v2/apps/appID/instanceID
 // HTTP Code: 200 on success
-func deregister(appName string) {
+func Deregister(appName string) {
 	appName = strings.ToUpper(appName)
 	log.Println("Trying to deregister application " + appName)
 	instanceId,_, _ := GetInfoWithappName(appName)
@@ -237,7 +236,7 @@ func handleSigterm(appName string) {
 	signal.Notify(c, syscall.SIGTERM)
 	go func() {
 		<-c
-		deregister(appName)
+		Deregister(appName)
 		os.Exit(1)
 	}()
 }
