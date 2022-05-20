@@ -230,6 +230,7 @@ func Deregister(appName string) {
 
 func FirstDeRegister(appName string,url string) {
 	appName = strings.ToUpper(appName)
+	discoveryServerUrl = url
 	log.Println("Trying to deregister application " + appName)
 	instanceId,_, _ := GetInfoWithappName(appName)
 	// cancel registerion
